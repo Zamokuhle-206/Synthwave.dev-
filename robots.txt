@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://zamokuhle-206.github.io/Synthwave.dev-/sitemap.xml
