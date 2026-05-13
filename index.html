@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Synthwave.dev — Web Developer KZN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #050d1a;
+    --ink:    #0a1628;
+    --cobalt: #1352f1;
+    --blue:   #2563eb;
+    --sky:    #3b82f6;
+    --ice:    #dbeafe;
+    --white:  #f8faff;
+    --muted:  #94a3b8;
+    --glass:  rgba(19,82,241,.08);
+    --border: rgba(59,130,246,.18);
+    --card-bg:#0d1e3a;
+    --shadow: 0 8px 40px rgba(0,0,0,.45);
+    --r: 14px;
+    --transition: .32s cubic-bezier(.4,0,.2,1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 64px;
+    background: rgba(5,13,26,.72);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+    transition: background var(--transition);
+  }
+  nav.scrolled { background: rgba(5,13,26,.96); }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -.02em;
+  }
+  .nav-logo span { color: var(--sky); }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); font-size: .9rem; font-weight: 500;
+    text-decoration: none; letter-spacing: .03em;
+    transition: color var(--transition);
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: var(--cobalt); color: var(--white);
+    padding: .5rem 1.25rem; border-radius: 8px;
+    font-size: .85rem; font-weight: 600;
+    text-decoration: none; letter-spacing: .02em;
+    transition: background var(--transition), transform var(--transition);
+  }
+  .nav-cta:hover { background: var(--sky); transform: translateY(-1px); }
+
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; background: none; border: none; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--white); border-radius: 2px;
+    transition: var(--transition);
+  }
+
+  /* ── HERO ───────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 5vw 80px;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(37,99,235,.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,99,235,.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-orb {
+    position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none;
+  }
+  .orb1 {
+    width: 520px; height: 520px;
+    background: radial-gradient(circle, rgba(37,99,235,.35) 0%, transparent 70%);
+    top: -100px; right: -80px;
+  }
+  .orb2 {
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(19,82,241,.2) 0%, transparent 70%);
+    bottom: 0; left: -60px;
+  }
+
+  .hero-content {
+    position: relative; max-width: 760px;
+    animation: fadeUp .9s cubic-bezier(.4,0,.2,1) both;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--glass); border: 1px solid var(--border);
+    border-radius: 99px; padding: .35rem 1rem;
+    font-size: .8rem; font-weight: 500; color: var(--sky);
+    letter-spacing: .05em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero-badge::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--sky); animation: pulse 2s infinite;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    line-height: 1.1; letter-spacing: -.03em;
+    margin-bottom: 1.25rem;
+  }
+  h1 em { font-style: italic; color: var(--sky); }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.18rem);
+    color: var(--muted); font-weight: 300;
+    max-width: 520px; margin-bottom: 2.5rem;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--cobalt); color: #fff;
+    padding: .85rem 2rem; border-radius: 10px;
+    font-size: .95rem; font-weight: 600;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    box-shadow: 0 4px 24px rgba(19,82,241,.4);
+  }
+  .btn-primary:hover { background: var(--sky); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(59,130,246,.5); }
+
+  .btn-ghost {
+    background: transparent; color: var(--white);
+    padding: .85rem 2rem; border-radius: 10px;
+    font-size: .95rem; font-weight: 500;
+    text-decoration: none; border: 1px solid var(--border); cursor: pointer;
+    transition: border-color var(--transition), background var(--transition), transform var(--transition);
+  }
+  .btn-ghost:hover { border-color: var(--sky); background: var(--glass); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    padding-top: 2rem; border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem; color: var(--white);
+  }
+  .stat-num span { color: var(--sky); }
+  .stat-label { font-size: .8rem; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
+
+  /* ── SECTION BASE ───────────────────────────── */
+  section { padding: 100px 5vw; }
+  .section-label {
+    font-size: .75rem; font-weight: 600; color: var(--sky);
+    letter-spacing: .12em; text-transform: uppercase; margin-bottom: .75rem;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.2; letter-spacing: -.02em; margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--muted); max-width: 520px; font-size: 1rem; }
+
+  /* ── SERVICES ───────────────────────────────── */
+  #services { background: var(--ink); }
+  .services-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5vw; align-items: start; margin-top: 3.5rem;
+  }
+  .services-text .section-sub { margin-bottom: 2rem; }
+
+  .service-list { display: flex; flex-direction: column; gap: 1rem; }
+  .service-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.25rem 1.5rem; border-radius: var(--r);
+    background: var(--glass); border: 1px solid var(--border);
+    transition: border-color var(--transition), transform var(--transition);
+    cursor: default;
+  }
+  .service-item:hover { border-color: var(--sky); transform: translateX(4px); }
+  .service-icon {
+    flex-shrink: 0; width: 40px; height: 40px;
+    background: rgba(37,99,235,.15); border-radius: 8px;
+    display: grid; place-items: center; font-size: 1.1rem;
+  }
+  .service-item h3 { font-size: .95rem; font-weight: 600; margin-bottom: .25rem; }
+  .service-item p { font-size: .85rem; color: var(--muted); }
+
+  .tech-stack { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem; }
+  .tech-pill {
+    background: var(--glass); border: 1px solid var(--border);
+    border-radius: 99px; padding: .3rem .9rem;
+    font-size: .78rem; color: var(--sky); font-weight: 500;
+    letter-spacing: .04em;
+  }
+
+  /* ── PRICING ────────────────────────────────── */
+  #pricing { background: var(--navy); }
+  .pricing-header { max-width: 520px; margin-bottom: 3.5rem; }
+
+  /* Toggle */
+  .toggle-wrap {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .toggle-label { font-size: .9rem; color: var(--muted); font-weight: 500; }
+  .toggle-label.active { color: var(--white); }
+
+  .toggle-switch {
+    width: 52px; height: 28px; border-radius: 99px;
+    background: var(--cobalt); border: none; cursor: pointer;
+    position: relative; transition: background var(--transition);
+    flex-shrink: 0;
+  }
+  .toggle-switch::after {
+    content: ''; position: absolute;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fff; top: 4px; left: 4px;
+    transition: transform var(--transition);
+  }
+  .toggle-switch.annual::after { transform: translateX(24px); }
+  .toggle-switch.annual { background: var(--sky); }
+
+  .save-badge {
+    background: rgba(59,130,246,.15); border: 1px solid rgba(59,130,246,.3);
+    color: var(--sky); font-size: .75rem; font-weight: 600;
+    padding: .2rem .7rem; border-radius: 99px; letter-spacing: .04em;
+    opacity: 0; transition: opacity var(--transition);
+  }
+  .save-badge.show { opacity: 1; }
+
+  .pricing-cards {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2rem; align-items: start;
+  }
+
+  .pricing-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2.5rem;
+    transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    position: relative; overflow: hidden;
+  }
+  .pricing-card::before {
+    content: ''; position: absolute;
+    inset: 0; opacity: 0;
+    background: linear-gradient(135deg, rgba(37,99,235,.08), transparent 60%);
+    transition: opacity var(--transition);
+  }
+  .pricing-card:hover { border-color: var(--sky); transform: translateY(-6px); box-shadow: var(--shadow); }
+  .pricing-card:hover::before { opacity: 1; }
+
+  .pricing-card.featured {
+    border-color: var(--cobalt);
+    box-shadow: 0 0 0 1px rgba(19,82,241,.3), 0 20px 60px rgba(19,82,241,.2);
+  }
+  .pricing-card.featured::before { opacity: 1; }
+
+  .feat-badge {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: var(--cobalt); color: #fff;
+    font-size: .7rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; padding: .25rem .75rem; border-radius: 99px;
+  }
+
+  .card-type {
+    font-size: .72rem; font-weight: 600; color: var(--sky);
+    letter-spacing: .12em; text-transform: uppercase; margin-bottom: .75rem;
+  }
+  .card-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem; margin-bottom: .5rem;
+  }
+  .card-desc { font-size: .88rem; color: var(--muted); margin-bottom: 2rem; }
+
+  .price-display { margin-bottom: 2rem; }
+  .price-amount {
+    display: flex; align-items: baseline; gap: .3rem;
+  }
+  .price-currency { font-size: 1.2rem; font-weight: 600; color: var(--muted); }
+  .price-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3rem; line-height: 1; color: var(--white);
+    transition: var(--transition);
+  }
+  .price-period { font-size: .88rem; color: var(--muted); }
+  .price-note { font-size: .78rem; color: var(--muted); margin-top: .4rem; }
+  .price-note.highlight { color: var(--sky); }
+
+  .card-divider {
+    height: 1px; background: var(--border); margin: 1.75rem 0;
+  }
+
+  .feature-list { list-style: none; display: flex; flex-direction: column; gap: .85rem; margin-bottom: 2rem; }
+  .feature-list li {
+    display: flex; align-items: flex-start; gap: .75rem;
+    font-size: .88rem; color: var(--muted);
+  }
+  .feature-list li .check {
+    flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%;
+    background: rgba(37,99,235,.2); display: grid; place-items: center;
+    font-size: .65rem; color: var(--sky); margin-top: 2px;
+  }
+  .feature-list li strong { color: var(--white); font-weight: 500; }
+
+  /* Details accordion */
+  .details-toggle {
+    background: none; border: none; color: var(--sky);
+    font-size: .82rem; font-weight: 500; cursor: pointer;
+    display: flex; align-items: center; gap: .4rem;
+    padding: 0; margin-bottom: 1.5rem;
+    transition: color var(--transition);
+  }
+  .details-toggle:hover { color: var(--white); }
+  .details-toggle .arrow { transition: transform var(--transition); display: inline-block; }
+  .details-toggle.open .arrow { transform: rotate(180deg); }
+
+  .extra-features {
+    max-height: 0; overflow: hidden;
+    transition: max-height .4s cubic-bezier(.4,0,.2,1);
+  }
+  .extra-features.open { max-height: 400px; }
+  .extra-features ul {
+    list-style: none; display: flex; flex-direction: column; gap: .65rem;
+    margin-bottom: 1.5rem;
+  }
+  .extra-features li {
+    font-size: .83rem; color: var(--muted);
+    display: flex; align-items: flex-start; gap: .6rem;
+  }
+  .extra-features li::before {
+    content: '→'; color: var(--sky); flex-shrink: 0;
+  }
+
+  .select-btn {
+    width: 100%; padding: .9rem; border-radius: 10px;
+    font-size: .95rem; font-weight: 600; cursor: pointer;
+    border: none; transition: var(--transition);
+    position: relative; overflow: hidden;
+  }
+  .select-btn.primary {
+    background: var(--cobalt); color: #fff;
+    box-shadow: 0 4px 20px rgba(19,82,241,.4);
+  }
+  .select-btn.primary:hover { background: var(--sky); box-shadow: 0 6px 28px rgba(59,130,246,.5); transform: translateY(-1px); }
+  .select-btn.outline {
+    background: transparent; color: var(--white);
+    border: 1px solid var(--border);
+  }
+  .select-btn.outline:hover { border-color: var(--sky); background: var(--glass); transform: translateY(-1px); }
+  .select-btn.selected {
+    background: rgba(37,99,235,.15) !important;
+    border: 1px solid var(--sky) !important; color: var(--sky) !important;
+    box-shadow: none !important; transform: none !important;
+  }
+  .select-btn.selected::after { content: ' ✓'; }
+
+  /* confirmation toast */
+  #toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--card-bg); border: 1px solid var(--cobalt);
+    border-radius: 12px; padding: 1rem 2rem;
+    font-size: .9rem; font-weight: 500; color: var(--white);
+    box-shadow: 0 8px 40px rgba(0,0,0,.6);
+    z-index: 200; transition: transform .4s cubic-bezier(.4,0,.2,1);
+    white-space: nowrap;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+  #toast span { color: var(--sky); }
+
+  /* ── CONTACT ────────────────────────────────── */
+  #contact { background: var(--ink); }
+  .contact-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5vw; align-items: start;
+  }
+  .contact-info { padding-top: .5rem; }
+  .contact-info .section-sub { margin-bottom: 2.5rem; }
+  .contact-detail {
+    display: flex; align-items: center; gap: .75rem;
+    color: var(--muted); font-size: .9rem; margin-bottom: 1rem;
+  }
+  .contact-detail strong { color: var(--white); margin-right: .25rem; }
+  .contact-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--glass); border: 1px solid var(--border);
+    display: grid; place-items: center; font-size: .9rem; flex-shrink: 0;
+  }
+
+  form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .field { display: flex; flex-direction: column; gap: .4rem; }
+  .field label { font-size: .8rem; font-weight: 600; color: var(--muted); letter-spacing: .04em; }
+  .field input, .field textarea, .field select {
+    background: var(--navy); border: 1px solid var(--border);
+    border-radius: 10px; padding: .85rem 1rem;
+    color: var(--white); font-family: 'DM Sans', sans-serif; font-size: .9rem;
+    outline: none; transition: border-color var(--transition), box-shadow var(--transition);
+    width: 100%;
+    -webkit-appearance: none;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    border-color: var(--cobalt); box-shadow: 0 0 0 3px rgba(19,82,241,.15);
+  }
+  .field textarea { resize: vertical; min-height: 120px; }
+  .field select { cursor: pointer; }
+  .field select option { background: var(--navy); }
+
+  .field-error { font-size: .75rem; color: #f87171; display: none; }
+  .field.error input, .field.error textarea, .field.error select {
+    border-color: #f87171; box-shadow: 0 0 0 3px rgba(248,113,113,.1);
+  }
+  .field.error .field-error { display: block; }
+
+  .submit-btn {
+    background: var(--cobalt); color: #fff;
+    padding: .9rem; border-radius: 10px;
+    font-size: .95rem; font-weight: 600;
+    border: none; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(19,82,241,.4);
+    transition: var(--transition);
+    position: relative; overflow: hidden;
+  }
+  .submit-btn:hover { background: var(--sky); transform: translateY(-2px); }
+  .submit-btn:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+
+  .form-success {
+    display: none; text-align: center; padding: 3rem 1.5rem;
+    border: 1px solid var(--cobalt); border-radius: 16px;
+    background: rgba(19,82,241,.06);
+  }
+  .form-success.show { display: block; }
+  .form-success h3 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; margin-bottom: .5rem; }
+  .form-success p { color: var(--muted); font-size: .9rem; }
+  .success-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+
+  /* ── FOOTER ─────────────────────────────────── */
+  footer {
+    background: var(--navy); border-top: 1px solid var(--border);
+    padding: 2rem 5vw; display: flex;
+    align-items: center; justify-content: space-between; flex-wrap: gap;
+    gap: 1rem;
+  }
+  .footer-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem; color: var(--white); text-decoration: none;
+  }
+  .footer-logo span { color: var(--sky); }
+  footer p { font-size: .8rem; color: var(--muted); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: .8rem; color: var(--muted); text-decoration: none; transition: color var(--transition); }
+  .footer-links a:hover { color: var(--white); }
+
+  /* ── ANIMATIONS ─────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,.6); }
+    50%       { box-shadow: 0 0 0 5px rgba(59,130,246,0); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ─────────────────────────────── */
+  @media (max-width: 900px) {
+    .services-layout, .pricing-cards, .contact-layout {
+      grid-template-columns: 1fr;
+    }
+    .services-layout { gap: 3rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: none; flex-direction: column;
+    position: fixed; inset: 64px 0 0 0;
+    background: rgba(5,13,26,.98); z-index: 99;
+    padding: 2rem 5vw; gap: 1.5rem;
+    animation: fadeUp .3s ease both;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: var(--white); text-decoration: none; font-size: 1.2rem; font-weight: 500;
+    border-bottom: 1px solid var(--border); padding-bottom: 1rem;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Synthwave<span>.</span>dev</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's Talk</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#pricing" onclick="closeMobile()">Pricing</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="#contact" onclick="closeMobile()" class="nav-cta" style="text-align:center;border-radius:10px;padding:.85rem;border:none">Let's Talk</a>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Available for projects</div>
+    <h1>Websites that<br /><em>work as hard</em><br />as you do.</h1>
+    <p class="hero-sub">
+      I build fast, polished, conversion-focused websites for growing businesses —
+      from full custom builds to ongoing care plans that keep your site sharp.
+    </p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary">See Pricing</a>
+      <a href="#contact" class="btn-ghost">Start a Project</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">60<span>+</span></div>
+        <div class="stat-label">Sites launched</div>
+      </div>
+      <div>
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-label">Client satisfaction</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="services-layout">
+    <div class="services-text reveal">
+      <p class="section-label">What I do</p>
+      <h2 class="section-title">Crafted for performance. Built to convert.</h2>
+      <p class="section-sub">
+        I specialise in designing and developing websites that look stunning and actually drive results for your business.
+      </p>
+      <div class="tech-stack">
+        <span class="tech-pill">HTML / CSS</span>
+        <span class="tech-pill">TypeScript</span>
+        <span class="tech-pill">React</span>
+        <span class="tech-pill">Next.js</span>
+        <span class="tech-pill">Node.js</span>
+        <span class="tech-pill">WordPress</span>
+        <span class="tech-pill">Webflow</span>
+        <span class="tech-pill">Figma</span>
+      </div>
+    </div>
+    <div class="service-list reveal">
+      <div class="service-item">
+        <div class="service-icon">🎨</div>
+        <div>
+          <h3>Custom Web Design</h3>
+          <p>Pixel-perfect, brand-aligned designs tailored to your audience and goals.</p>
+        </div>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">⚡</div>
+        <div>
+          <h3>Performance-First Development</h3>
+          <p>Clean, optimised code with 90+ Lighthouse scores across the board.</p>
+        </div>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">🔒</div>
+        <div>
+          <h3>Hosting & Security</h3>
+          <p>Managed hosting, SSL certificates, daily backups, and uptime monitoring.</p>
+        </div>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">📈</div>
+        <div>
+          <h3>SEO & Analytics</h3>
+          <p>Technical SEO foundations plus Google Analytics setup so you see real data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section id="pricing">
+  <div class="pricing-header reveal">
+    <p class="section-label">Pricing</p>
+    <h2 class="section-title">Transparent plans. Zero surprises.</h2>
+    <p class="section-sub">Two straightforward options — pick the one that fits your situation.</p>
+  </div>
+
+  <!-- Billing toggle (monthly card only) -->
+  <div class="toggle-wrap reveal">
+    <span class="toggle-label active" id="monthlyLabel">Monthly</span>
+    <button class="toggle-switch" id="billingToggle" aria-label="Switch billing period"></button>
+    <span class="toggle-label" id="annualLabel">Annual</span>
+    <span class="save-badge" id="saveBadge">Save 15%</span>
+  </div>
+
+  <div class="pricing-cards">
+    <!-- Care Plan -->
+    <div class="pricing-card featured reveal" id="careCard">
+      <span class="feat-badge">Most Popular</span>
+      <p class="card-type">Ongoing · Retainer</p>
+      <h3 class="card-name">Website Care Plan</h3>
+      <p class="card-desc">Full management so you never have to think about your website again.</p>
+
+      <div class="price-display">
+        <div class="price-amount">
+          <span class="price-currency">R</span>
+          <span class="price-num" id="carePrice">235</span>
+          <span class="price-period">/ month</span>
+        </div>
+        <p class="price-note highlight" id="careNote">Billed monthly — cancel anytime</p>
+      </div>
+
+      <div class="card-divider"></div>
+
+      <ul class="feature-list">
+        <li><span class="check">✓</span><div><strong>Managed hosting</strong> — fast, reliable SA servers</div></li>
+        <li><span class="check">✓</span><div><strong>Weekly content updates</strong> — text, images, prices</div></li>
+        <li><span class="check">✓</span><div><strong>Plugin & security updates</strong> — always patched</div></li>
+        <li><span class="check">✓</span><div><strong>Daily backups</strong> — 30-day retention</div></li>
+        <li><span class="check">✓</span><div><strong>Priority support</strong> — 24h response SLA</div></li>
+      </ul>
+
+      <button class="details-toggle" id="careToggle" onclick="toggleDetails('care')">
+        Show all features <span class="arrow">▾</span>
+      </button>
+      <div class="extra-features" id="careExtra">
+        <ul>
+          <li>SSL certificate management</li>
+          <li>Monthly performance & uptime report</li>
+          <li>Google Analytics dashboard access</li>
+          <li>1 new page or section per quarter</li>
+          <li>Broken link & form monitoring</li>
+          <li>Speed optimisation checks</li>
+        </ul>
+      </div>
+
+      <button class="select-btn primary" onclick="selectPlan('Care Plan')">Choose Care Plan</button>
+    </div>
+
+    <!-- One-Off Build -->
+    <div class="pricing-card reveal" id="buildCard">
+      <p class="card-type">One-time · Project</p>
+      <h3 class="card-name">Website Build</h3>
+      <p class="card-desc">A professionally designed website delivered in full — no monthly fees, ever.</p>
+
+      <div class="price-display">
+        <div class="price-amount">
+          <span class="price-currency">R</span>
+          <span class="price-num">825</span>
+          <span class="price-period"> once-off</span>
+        </div>
+        <p class="price-note">50% deposit · 50% on delivery</p>
+      </div>
+
+      <div class="card-divider"></div>
+
+      <ul class="feature-list">
+        <li><span class="check">✓</span><div><strong>Up to 8 pages</strong> — custom designed &amp; built</div></li>
+        <li><span class="check">✓</span><div><strong>Mobile responsive</strong> — looks great on any device</div></li>
+        <li><span class="check">✓</span><div><strong>Contact form</strong> — spam-protected &amp; tested</div></li>
+        <li><span class="check">✓</span><div><strong>3 revisions</strong> — included in the project</div></li>
+        <li><span class="check">✓</span><div><strong>30-day support</strong> — post-launch assistance</div></li>
+      </ul>
+
+      <button class="details-toggle" id="buildToggle" onclick="toggleDetails('build')">
+        Show all features <span class="arrow">▾</span>
+      </button>
+      <div class="extra-features" id="buildExtra">
+        <ul>
+          <li>SEO-ready page structure &amp; meta tags</li>
+          <li>Google Analytics setup</li>
+          <li>Basic on-page SEO</li>
+          <li>Speed optimisation on delivery</li>
+          <li>Source code &amp; full asset handover</li>
+          <li>Deployment to your hosting</li>
+        </ul>
+      </div>
+
+      <button class="select-btn outline" onclick="selectPlan('Website Build')">Choose Build Plan</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-layout">
+    <div class="contact-info reveal">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">Let's build something great.</h2>
+      <p class="section-sub">
+        Have a project in mind? Tell me about it and I'll get back to you within one business day.
+      </p>
+      <div style="margin-top:2rem">
+        <div class="contact-detail">
+          <div class="contact-icon">✉</div>
+          <div><strong>Email</strong> sanelepanhela@gmail.com</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">📱</div>
+          <div><strong>Mobile</strong> 068 683 3231</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">📍</div>
+          <div><strong>Based in</strong> KwaZulu-Natal, South Africa</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">⏱</div>
+          <div><strong>Response time</strong> &lt; 24 hours</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="field" id="fieldName">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Smith" />
+            <span class="field-error">Please enter your name.</span>
+          </div>
+          <div class="field" id="fieldEmail">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="jane@company.co.za" />
+            <span class="field-error">Please enter a valid email.</span>
+          </div>
+        </div>
+        <div class="field" id="fieldInterest">
+          <label for="interest">I'm interested in…</label>
+          <select id="interest" name="interest">
+            <option value="">Select a plan</option>
+            <option value="care">Website Care Plan (monthly)</option>
+            <option value="build">Website Build (once-off)</option>
+            <option value="other">Just exploring</option>
+          </select>
+          <span class="field-error">Please select an option.</span>
+        </div>
+        <div class="field" id="fieldMessage">
+          <label for="message">Tell me about your project</label>
+          <textarea id="message" name="message" placeholder="What does your business do? What's the goal of the website?"></textarea>
+          <span class="field-error">Please add a brief message.</span>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">Send Message →</button>
+      </form>
+
+      <div class="form-success" id="formSuccess">
+        <div class="success-icon">🚀</div>
+        <h3>Message sent!</h3>
+        <p>Thanks for reaching out. I'll be in touch within one business day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <a href="#hero" class="footer-logo">Synthwave<span>.</span>dev</a>
+  <p>© 2025 Zamokuhle Sanele Panhela · Synthwave.dev · KZN</p>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<!-- ── TOAST ── -->
+<div id="toast">You selected: <span id="toastPlan"></span> — fill in the form below!</div>
+
+<script>
+// ─── TypeScript-annotated inline JS ──────────────────────────────────────────
+// (Compiled-equivalent ES2020; annotations as JSDoc for full type coverage)
+
+/** @type {boolean} */
+let isAnnual = false;
+
+/** @type {string} */
+let selectedPlan = '';
+
+// ── Sticky nav ──────────────────────────────────────────────────────────────
+const navbar = /** @type {HTMLElement} */ (document.getElementById('navbar'));
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ── Mobile menu ─────────────────────────────────────────────────────────────
+const hamburger = /** @type {HTMLButtonElement} */ (document.getElementById('hamburger'));
+const mobileMenu = /** @type {HTMLElement} */ (document.getElementById('mobileMenu'));
+
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+});
+
+/** @returns {void} */
+function closeMobile() {
+  mobileMenu.classList.remove('open');
+}
+
+// ── Scroll reveal ────────────────────────────────────────────────────────────
+const revealEls = /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('.reveal'));
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.12 }
+);
+revealEls.forEach((el) => observer.observe(el));
+
+// ── Billing toggle ───────────────────────────────────────────────────────────
+/**
+ * @typedef {{ monthly: number; annual: number }} PriceData
+ */
+/** @type {PriceData} */
+const carePrices = { monthly: 235, annual: 200 };
+
+const billingToggle = /** @type {HTMLButtonElement} */ (document.getElementById('billingToggle'));
+const carePrice     = /** @type {HTMLElement} */       (document.getElementById('carePrice'));
+const careNote      = /** @type {HTMLElement} */       (document.getElementById('careNote'));
+const saveBadge     = /** @type {HTMLElement} */       (document.getElementById('saveBadge'));
+const monthlyLabel  = /** @type {HTMLElement} */       (document.getElementById('monthlyLabel'));
+const annualLabel   = /** @type {HTMLElement} */       (document.getElementById('annualLabel'));
+
+billingToggle.addEventListener('click', () => {
+  isAnnual = !isAnnual;
+  billingToggle.classList.toggle('annual', isAnnual);
+  saveBadge.classList.toggle('show', isAnnual);
+  monthlyLabel.classList.toggle('active', !isAnnual);
+  annualLabel.classList.toggle('active', isAnnual);
+
+  const newPrice = isAnnual ? carePrices.annual : carePrices.monthly;
+  carePrice.style.transition = 'opacity .2s ease';
+  carePrice.style.opacity = '0';
+  setTimeout(() => {
+    carePrice.textContent = newPrice.toLocaleString('en-ZA');
+    careNote.textContent = isAnnual
+      ? 'Billed annually — best value'
+      : 'Billed monthly — cancel anytime';
+    careNote.style.color = isAnnual ? 'var(--sky)' : '';
+    carePrice.style.opacity = '1';
+  }, 160);
+});
+
+// ── Details accordion ─────────────────────────────────────────────────────────
+/**
+ * @param {'care' | 'build'} id
+ * @returns {void}
+ */
+function toggleDetails(id) {
+  const extra  = /** @type {HTMLElement} */ (document.getElementById(`${id}Extra`));
+  const toggle = /** @type {HTMLButtonElement} */ (document.getElementById(`${id}Toggle`));
+  const isOpen = extra.classList.toggle('open');
+  toggle.classList.toggle('open', isOpen);
+  toggle.innerHTML = `${isOpen ? 'Hide' : 'Show'} all features <span class="arrow">▾</span>`;
+}
+// expose to onclick attributes
+window.toggleDetails = toggleDetails;
+
+// ── Plan selection ────────────────────────────────────────────────────────────
+const toast     = /** @type {HTMLElement} */ (document.getElementById('toast'));
+const toastPlan = /** @type {HTMLElement} */ (document.getElementById('toastPlan'));
+const interest  = /** @type {HTMLSelectElement} */ (document.getElementById('interest'));
+
+/**
+ * @param {string} plan
+ * @returns {void}
+ */
+function selectPlan(plan) {
+  selectedPlan = plan;
+
+  // Update button states
+  const btns = /** @type {NodeListOf<HTMLButtonElement>} */ (document.querySelectorAll('.select-btn'));
+  btns.forEach((btn) => btn.classList.remove('selected'));
+
+  const clickedBtn = /** @type {HTMLButtonElement} */ (
+    Array.from(btns).find((b) => b.textContent.trim().startsWith('Choose ' + plan.split(' ')[0]))
+  );
+  if (clickedBtn) clickedBtn.classList.add('selected');
+
+  // Pre-fill select
+  const val = plan === 'Care Plan' ? 'care' : 'build';
+  interest.value = val;
+
+  // Show toast
+  toastPlan.textContent = plan;
+  toast.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
+
+  // Smooth scroll to contact
+  setTimeout(() => {
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  }, 400);
+}
+window.selectPlan = selectPlan;
+
+// ── Form validation & submission ──────────────────────────────────────────────
+const contactForm = /** @type {HTMLFormElement} */ (document.getElementById('contactForm'));
+const formSuccess = /** @type {HTMLElement} */     (document.getElementById('formSuccess'));
+const submitBtn   = /** @type {HTMLButtonElement}*/(document.getElementById('submitBtn'));
+
+/**
+ * Validate a single field element.
+ * @param {HTMLElement} fieldEl
+ * @param {string} value
+ * @param {'text'|'email'|'select'|'textarea'} type
+ * @returns {boolean}
+ */
+function validateField(fieldEl, value, type) {
+  let valid = false;
+  if (type === 'email') {
+    valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  } else if (type === 'select') {
+    valid = value !== '';
+  } else {
+    valid = value.trim().length >= 2;
+  }
+  fieldEl.classList.toggle('error', !valid);
+  return valid;
+}
+
+// Live validation
+[
+  { id: 'name',     fieldId: 'fieldName',     type: 'text' },
+  { id: 'email',    fieldId: 'fieldEmail',    type: 'email' },
+  { id: 'interest', fieldId: 'fieldInterest', type: 'select' },
+  { id: 'message',  fieldId: 'fieldMessage',  type: 'textarea' },
+].forEach(({ id, fieldId, type }) => {
+  const el = /** @type {HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement} */ (document.getElementById(id));
+  el.addEventListener('blur', () => {
+    const fieldEl = /** @type {HTMLElement} */ (document.getElementById(fieldId));
+    validateField(fieldEl, el.value, /** @type {'text'|'email'|'select'|'textarea'} */ (type));
+  });
+  el.addEventListener('input', () => {
+    const fieldEl = /** @type {HTMLElement} */ (document.getElementById(fieldId));
+    if (fieldEl.classList.contains('error')) {
+      validateField(fieldEl, el.value, /** @type {'text'|'email'|'select'|'textarea'} */ (type));
+    }
+  });
+});
+
+contactForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const name     = /** @type {HTMLInputElement}     */ (document.getElementById('name'));
+  const email    = /** @type {HTMLInputElement}     */ (document.getElementById('email'));
+  const intEl    = /** @type {HTMLSelectElement}   */ (document.getElementById('interest'));
+  const message  = /** @type {HTMLTextAreaElement} */ (document.getElementById('message'));
+
+  const v1 = validateField(document.getElementById('fieldName'),     name.value,    'text');
+  const v2 = validateField(document.getElementById('fieldEmail'),    email.value,   'email');
+  const v3 = validateField(document.getElementById('fieldInterest'), intEl.value,   'select');
+  const v4 = validateField(document.getElementById('fieldMessage'),  message.value, 'textarea');
+
+  if (!v1 || !v2 || !v3 || !v4) return;
+
+  // Simulate async submission
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+
+  setTimeout(() => {
+    contactForm.style.display = 'none';
+    formSuccess.classList.add('show');
+  }, 1100);
+});
+</script>
+</body>
+</html>
